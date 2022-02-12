@@ -1,0 +1,61 @@
+---
+title: "HW2"
+author: "MGinorio"
+date: "2/12/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## CH  2
+
+#### 2.1
+
+The web site www.playbill.com provides weekly reports on the box office
+ticket sales for plays on Broadway in New York. We shall consider the data
+for the week October 11--17, 2004 (referred to below as the current week).
+The data are in the form of the gross box office results for the current week
+and the gross box office results for the previous week (i.e., October 3--10,
+2004). The data, plotted in Figure 2.6 , are available on the book web site in
+the file playbill.csv.
+Fit the following model to the data: Y x 0 1 =+ + b b e where Y is the gross box
+office results for the current week (in \$) and x is the gross box office results for the
+previous week (in \$). Complete the following tasks:
+
+1.  Find a 95% confidence interval for the slope of the regression model, b1. Is 1 a plausible value for b1? Give a reason to support your answer.
+
+2.  Test the null hypothesis 0 0 H : 10000 b = against a two-sided alternative.
+    Interpret your result.
+
+3.  Use the fitted regression model to estimate the gross box office results for
+    the current week (in \$) for a production with \$400,000 in gross box office
+    the previous week. Find a 95% prediction interval for the gross box office results for the current week (in \$) for a production with \$400,000 in gross
+    box office the previous week. Is \$450,000 a feasible value for the gross box
+    office results in the current week, for a production with \$400,000 in gross
+    box office the previous week? Give a reason to support your answer.
+
+4.  Some promoters of Broadway plays use the prediction rule that next week's
+    gross box office results will be equal to this week's gross box office results.
+    Comment on the appropriateness of this rule.
+
+#### 2.2
+
+```{r cars}
+summary(cars)
+```
+
+## LMR
+
+#### 2.4
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#### 2.5
