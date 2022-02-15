@@ -1,0 +1,20 @@
+---
+title: "Estimation"
+output: html_notebook
+---
+
+The dataset prostate comes from a study on 97 men with prostate cancer who were due
+to receive a radical prostatectomy. Fit a model with lpsa as the response and l cavol as
+the predictor. Record the residual standard error and the R2
+. Now add lweight, svi,
+lpph, age, l cp, pgg45 and gleason to the model one at a time. For each model record
+the residual standard error and the R2
+. Plot the trends in these two statistics.
+
+```{r}
+plot(cars)
+```
+
+5. Using the prostate data, plot lpsa against l cavol. Fit the regressions of lpsa on lcavol
+and lcavol on lpsa. Display both regression lines on the plot. At what point do the two
+lines intersect
