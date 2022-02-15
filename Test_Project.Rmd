@@ -1,0 +1,54 @@
+---
+title: "Test_Project"
+author: "MGinorio"
+date: "2/11/2022"
+output: 
+  pdf_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Linear Regression
+
+[\*A Modern Approach To Regression With R.pdf.pdf](file:///C:/Users/maria/Downloads/A%20Modern%20Approach%20To%20Regression%20With%20R.pdf.pdf)
+
+$X = PREDICTOR$ ( explanatory, independent)
+
+$y=DEPENDEDNT$ (response)
+
+### Least Squares
+
+$E(Y|X=x)=B_0 +B_1x$
+
+Assuming that:
+
+$$Var(Y|X =x) = \sigma^2$$
+
+#### Least Squares Estimates
+
+intercept =
+
+$$\hat{\beta_{0}} = \overline{y} - \hat{\beta_1} \overline{x}$$
+
+slope =
+
+$$
+slope = \frac{SXY}{SXX}
+$$
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
