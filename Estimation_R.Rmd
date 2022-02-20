@@ -1,20 +1,123 @@
 ---
 title: "Estimation"
 output: html_notebook
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
-The dataset prostate comes from a study on 97 men with prostate cancer who were due
-to receive a radical prostatectomy. Fit a model with lpsa as the response and l cavol as
-the predictor. Record the residual standard error and the R2
-. Now add lweight, svi,
-lpph, age, l cp, pgg45 and gleason to the model one at a time. For each model record
-the residual standard error and the R2
-. Plot the trends in these two statistics.
+## Estimation
 
-```{r}
-plot(cars)
+### Ex. 1
+
+The dataset teengamb concerns a study of teenage gambling in Britain.
+Fit a regression
+model with the expenditure on gambling as the response and the sex,
+status, income
+and verbal score as predictors.
+
+Present the output
+
+```{r correlation}
+
+data %>% 
+  select(gamble, income, verbal, sex, status) %>% 
+  cor()
+
+
 ```
 
-5. Using the prostate data, plot lpsa against l cavol. Fit the regressions of lpsa on lcavol
-and lcavol on lpsa. Display both regression lines on the plot. At what point do the two
-lines intersect
+```{r}
+library(moderndive)
+
+# fit regression model
+
+gamble_model <- lm(gamble ~ sex + income + verbal + status, data = data)
+
+# regression table
+
+get_regression_table(gamble_model)
+```
+
+Estimate -\> 22.556 it represents the gamble expenditure when sex,
+income, verbal and status are at 0.
+
+```{r}
+get_regression_points(gamble_model)
+```
+
+(a) What percentage of variation in the response is explained by these
+predictors?
+
+```{r}
+
+get_regression_points(gamble_model) %>% 
+  summarize(var_y = var(gamble),
+            var_y_hat = var(gamble_hat),
+            var_residual = var(residual))
+
+```
+
+(b) Which observation has the largest (positive) residual? Give the case
+number.
+
+```{r}
+#24	156.00	0	10.00	4	27	61.748	94.252
+  
+```
+
+(c) Compute the mean and median of the residuals.
+(d) Compute the correlation of the residuals with the fitted values.
+(e) Compute the correlation of the residuals with the income.
+(f) For all other predictors held constant, what would be the difference
+in predicted
+expenditure on gambling for a male compared to a female
+
+```{r data, warning=FALSE, message=FALSE}
+library(faraway)
+library(tidyverse)
+library(skimr)
+
+data <- teengamb
+
+
+```
+
+```{r}
+
+data %>% skim()
+
+```
+
+-   From the description above we can observe that sex, income and
+    gamble have NOT normal distributions
+
+-   income and gamble skewed to the right
+
+-   sex categorical - dummy variable
+
+```{r}
+data %>% 
+  ggplot(aes(x=status, y=gamble)) + 
+  geom_point() +
+  labs(title = "Relationship of status and gamble") + 
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+Relationship of Predictors with Gambling expenditure
+
+-   [**Sex**]{.ul} -\> 0 = male, 1= female, less female gambling
+    expenditure
+
+-   status -\> socioeconomic status based on parents occupation
+
+-   [**income**]{.ul}
+
+-   [**verbal**]{.ul} -\> inverse (negative relationship)
+
+### Ex. 2
+
+5.  Using the prostate data, plot lpsa against l cavol. Fit the
+    regressions of lpsa on lcavol and lcavol on lpsa. Display both
+    regression lines on the plot. At what point do the two lines
+    intersect
