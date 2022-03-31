@@ -1,0 +1,89 @@
+---
+title: "Homework 3 (Group 5)"
+subtitle: "Binary Logistic Regression"
+author: "Maria A Ginorio""
+date: "3/30/2022"
+geometry: "left=2cm,right=2cm,top=2cm,bottom=2cm"
+output: 
+  pdf_document:
+    toc: true 
+    toc_depth: 3
+    latex_engine: xelatex
+    extra_dependencies: ["geometry","multicol","multirow", "xcolor"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+In this homework assignment, you will explore, analyze and model a data set containing information on crime for various neighborhoods of a major city. Each record has a response variable indicating whether or not the crime rate is above the median crime rate (1) or not (0).
+
+Your objective is to build a binary logistic regression model on the training data set to predict whether the neighborhood will be at risk for high crime levels. You will provide classifications and probabilities for the evaluation data set using your binary logistic regression model. You can only use the variables given to you (or variables that you derive from the variables provided). Below is a short description of the variables of interest in the data set:
+
+![](Dataset_hw3.PNG "Dataset Description")
+
+\newpage
+
+## 1. Data Exploration
+
+```{r}
+
+```
+
+### Objective
+
+-   Understand the variables provided
+
+-   Build a multiple linear regression model on the training data
+
+-   predict the number of wins for the team.
+
+\newpage
+
+## 2. Data Preparation
+
+```{r}
+
+```
+
+\newpage
+
+## 3. Building Models
+
+### Model \# 1
+
+\newpage
+
+### Model \#2
+
+\newpage
+
+### Model \#3
+
+\newpage
+
+## 4. Select Models
+
+### Model_1 Testing
+
+\newpage
+
+### Model_2 Testing
+
+\newpage
+
+### Model_3 Testing
+
+\newpage
+
+### Final Selection
+
+## References
+
+## Apendix
+
+```{r ref.label=knitr::all_labels(). echo=TRUE, eval=FALSE}
+
+```
