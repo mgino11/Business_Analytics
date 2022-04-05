@@ -106,6 +106,8 @@ In addition to histogram graph of our variable we thought it was pertinent to ta
 
 In addition, we will be able to create a clear picture of the median values and the spreads across all the distributions. One of the most important observation we will obtain from this graph however, is outlier detection.
 
+Find outliers in red below:
+
 ```{r}
 ggplot(crime_dist, aes(value, variable)) + 
   geom_boxplot(outlier.color = "red") +
@@ -113,9 +115,38 @@ ggplot(crime_dist, aes(value, variable)) +
   coord_flip()
 ```
 
+Indication of outliers is present in variables `chas`, `dis, Istat, medv, rm, zn`
+
+A key is whether an outlier represents a contaminated observation or a rare case.
+
+Are these data points unusual or different in some way from the rest of the data? We will have to consider removing this and refit the data if we consider they could be affecting our results.
+
+One of the first steps in any type of analysis is to take a closer look at the observations that have high leverage since they could have a large impact on the results of a given model.
+
 \newpage
 
 ### Relationships
+
+We want use scatter plots in each variable versus the target variable to get an idea of the relationship between them.
+
+The plots indicate interesting relationship between the `target` variable however some of them start showing signs of relationship and groups.
+
+Some of the predictors variables are skewed and not normally distributed, in addition we have outliers and bimodality.
+
+```{r}
+crime_scatter <- crime_train %>% 
+  pivot_longer(
+    cols = zn:medv,
+    names_to = c("variable"),
+    values_to = "value"
+  )
+```
+
+```{r}
+ggplot(crime_scatter, aes(x = value, y = target  )) +
+  geom_jitter(width = 10) + 
+  facet_wrap(~variable, scales = "free", ncol = 4)
+```
 
 \newpage
 
@@ -123,9 +154,20 @@ ggplot(crime_dist, aes(value, variable)) +
 
 ```{r prep, echo=FALSE,message=FALSE,warning=FALSE}
 
-crime_train$chas <- factor(crime_train$chas)
-crime_train$target <- factor(crime_train$target)
+# crime_train$chas <- factor(crime_train$chas)
+# crime_train$target <- factor(crime_train$target)
 
+```
+
+### Outliers
+
+**Outlier Leverage Statistic**
+
+Indication of outliers is present in variables `chas`, `dis, Istat, medv, rm, zn`
+
+```{r}
+outlier_df <- crime_train %>% 
+  select()
 ```
 
 \newpage
@@ -136,11 +178,11 @@ crime_train$target <- factor(crime_train$target)
 
 \newpage
 
-### Model #2
+### Model \#2
 
 \newpage
 
-### Model #3
+### Model \#3
 
 \newpage
 
