@@ -11,10 +11,8 @@ editor_options:
 ### Ex. 1
 
 The dataset teengamb concerns a study of teenage gambling in Britain.
-Fit a regression
-model with the expenditure on gambling as the response and the sex,
-status, income
-and verbal score as predictors.
+Fit a regression model with the expenditure on gambling as the response
+and the sex, status, income and verbal score as predictors.
 
 Present the output
 
@@ -47,7 +45,7 @@ get_regression_points(gamble_model)
 ```
 
 (a) What percentage of variation in the response is explained by these
-predictors?
+    predictors?
 
 ```{r}
 
@@ -59,7 +57,7 @@ get_regression_points(gamble_model) %>%
 ```
 
 (b) Which observation has the largest (positive) residual? Give the case
-number.
+    number.
 
 ```{r}
 #24	156.00	0	10.00	4	27	61.748	94.252
@@ -70,8 +68,7 @@ number.
 (d) Compute the correlation of the residuals with the fitted values.
 (e) Compute the correlation of the residuals with the income.
 (f) For all other predictors held constant, what would be the difference
-in predicted
-expenditure on gambling for a male compared to a female
+    in predicted expenditure on gambling for a male compared to a female
 
 ```{r data, warning=FALSE, message=FALSE}
 library(faraway)
