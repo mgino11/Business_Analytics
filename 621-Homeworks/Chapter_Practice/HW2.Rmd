@@ -53,7 +53,7 @@ playbill %>% skim()
 playbill %>% 
   ggplot(aes(x=LastWeek, y=CurrentWeek)) + 
   geom_point() +
-  labs(title = "Relationship of gross Results btw Last and Current Week") + 
+  labs(title = "Relationship of Gross Results btw Last and Current Week") + 
   geom_smooth(method = "lm", se = FALSE)
 
 
@@ -95,7 +95,7 @@ regression_points
 
     Is 1 a plausible value for b1? Give a reason to support your answer.
 
-    #### Standard Error Method
+#### Standard Error Method
 
 2.  Test the null hypothesis 0 0 H : 10000 b = against a two-sided
     alternative. Interpret your result.

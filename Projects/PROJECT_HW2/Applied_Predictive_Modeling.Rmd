@@ -1,0 +1,480 @@
+---
+title: "Homework 2 (Group 5)"
+subtitle: "Applied Predictive Modeling"
+author: "Maria A Ginorio"
+date: "3/20/2022"
+geometry: "left=2cm,right=2cm,top=2cm,bottom=2cm"
+output: 
+  pdf_document:
+    toc: true 
+    toc_depth: 3
+    latex_engine: xelatex
+    extra_dependencies: ["geometry","multicol","multirow", "xcolor"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(skimr)
+library(kableExtra)
+library(tinytex)
+
+```
+
+\newpage
+
+## 1. Data
+
+Download the classification output data set.
+
+```{r data, message=FALSE, warning=FALSE}
+class_data <- read_csv("classification-output-data.csv")
+kable(skim(class_data))
+```
+
+\newpage
+
+## 2. Key Columns
+
+The data set has three key columns we will use:
+
+-   class: the actual class for the observation
+
+-   scored.class: the predicted class for the observation (based on a threshold of 0.5)
+
+-   scored.probability: the predicted probability of success for the observation
+
+Use the table() function to get the raw confusion matrix for this scored dataset. Make sure you understand the output.
+
+**In particular, do the rows represent the actual or predicted class? The columns?**
+
+The confusion Matrix is nothing but a table that represents the performance of a logistic regression model.
+
+|         |                                  |
+|---------|----------------------------------|
+| Rows    | the actual class, the real value |
+| Columns | predicted class                  |
+
+```{r key cols, echo=FALSE, results='hide'}
+class_data <- class_data %>% 
+  mutate(Actual = class,
+         Predicted = scored.class,
+         Pred_prop = scored.probability)
+
+class_data
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+key_df <- class_data %>% 
+  select(Actual,
+         Predicted,
+         Pred_prop)
+  
+key_df
+
+```
+
+### 2.1 Confusion Matrix (1)
+
+-   There are two possible predicted classes: "yes" and "no".
+
+-   The classifier made a total of 181 predictions (e.g., 181 were being tested for the presence of that disease, in this case diabetes).
+
+-   Out of those 181 cases, the classifier predicted "yes" 32 times, and "no" 149 times.
+
+In reality, 57 patients in the sample have the disease, and 124 patients do not.
+
+```{r}
+class_data$Actual <- factor(class_data$class, 
+                        levels = c(1,0), 
+                        labels = c('Diabetes', 'No Diabetes'))
+
+class_data$Predicted <- factor(class_data$scored.class,
+                               levels = c(1,0),
+                               labels = c('Diabetes', 'No Diabetes'))
+```
+
+```{r}
+
+c_matrix <- with(class_data, table(Actual, Predicted))
+
+c_matrix
+```
+
++----------------+:---------:+--------------------------------------------------+
+| True Negatives | TN (0-0)  | 119 - Predicted NO, they DO NOT have the disease |
++----------------+-----------+--------------------------------------------------+
+| True Positive  | TP (1-1)  | 27 - Predicted YES, they DO have diabetes        |
++----------------+-----------+--------------------------------------------------+
+| False Negative | FN (1-0)  | 30- Predicted NO, but they DO HAVE diabetes      |
++----------------+-----------+--------------------------------------------------+
+| False Negative | FP (0 -1) | 5 - Predicted YES, but they DO NOT have diabetes |
++----------------+-----------+--------------------------------------------------+
+
+\newpage
+
+## 3. Accuracy Function
+
+Write a function that takes the data set as a data frame, with actual and predicted classifications identified, and returns the accuracy of the predictions.
+
+$$
+Accuracy = \frac{TP + TN}{TP + FP+ TN + FN}
+$$
+
+```{r}
+
+accuracy  <- function(class_data, Actual, Predicted) {
+  
+  TN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 0)
+  TP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 0)
+  FN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 1)
+  FP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 1)
+  
+  Acc <- (TP + TN)/(TP + FP + TN + FN)
+  return(Acc)
+  
+}
+
+
+```
+
+### 3.1 Accuracy Result
+
+```{r}
+
+a <- accuracy(class_data, Actual = 'class', Predicted = 'scored.class')
+a
+```
+
+\newpage
+
+## 4. Classification Error Rate
+
+Write a function that takes the data set as a data frame, with actual and predicted classifications identified, and returns the classification error rate of the predictions.
+
+$$
+CER = \frac{FP + FN}{TP + FP + TN + FN}
+$$\
+
+```{r}
+
+c_e_r  <- function(class_data, Actual, Predicted) {
+  
+  TN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 0)
+  TP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 0)
+  FN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 1)
+  FP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 1)
+  
+  Cer <- (FP + FN)/(TP + FP + TN + FN)
+  return(Cer)
+  
+}
+
+```
+
+### 4.1 Classification Error Rate Result
+
+```{r}
+
+cer <- c_e_r(class_data, Actual = 'class', Predicted = 'scored.class')
+cer
+```
+
+### 4.2 Error Rate Verification
+
+Verify that you get an accuracy and an error rate that sums to one
+
+```{r}
+
+a + cer
+```
+
+\newpage
+
+## 5. Precision
+
+Write a function that takes the data set as a data frame, with actual and predicted classifications identified, and returns the precision of the predictions.
+
+$$
+Precision = \frac{TP}{TP + FP}
+$$
+
+```{r}
+
+precision  <- function(class_data, Actual, Predicted) {
+  
+  TN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 0)
+  TP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 0)
+  FN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 1)
+  FP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 1)
+  
+  Prec <- (TP)/(TP + FP)
+  return(Prec)
+  
+}
+
+```
+
+```{r}
+
+prec <- precision(class_data, Actual = 'class', Predicted = 'scored.class')
+prec
+```
+
+\newpage
+
+## 6. Sensitivity
+
+Write a function that takes the data set as a data frame, with actual and predicted classifications identified, and returns the sensitivity of the predictions. Sensitivity is also known as recall.
+
+$$
+Sensitivity = \frac{TP}{TP + FN}
+$$
+
+```{r}
+
+sensitivity  <- function(class_data, Actual, Predicted) {
+  
+  TN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 0)
+  TP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 0)
+  FN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 1)
+  FP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 1)
+  
+  Sens <- (TP)/(TP + FP)
+  return(Sens)
+  
+}
+
+```
+
+```{r}
+
+sens <- sensitivity(class_data, Actual = 'class', Predicted = 'scored.class')
+sens
+```
+
+\newpage
+
+## 7. Specificity
+
+Write a function that takes the data set as a data frame, with actual and predicted classifications identified, and returns the specificity of the predictions.
+
+$$
+Specificity = \frac{TN}{TN + FP}
+$$
+
+```{r}
+
+specificity  <- function(class_data, Actual, Predicted) {
+  
+  TN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 0)
+  TP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 0)
+  FN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 1)
+  FP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 1)
+  
+  Spec <- (TP)/(TP + FP)
+  return(Spec)
+  
+}
+```
+
+```{r}
+
+specif <- specificity(
+  class_data, Actual = 'class', 
+  Predicted = 'scored.class')
+
+specif
+```
+
+\newpage
+
+## 8. F1 Score
+
+Write a function that takes the data set as a data frame, with actual and predicted classifications identified, and returns the F1 score of the predictions
+
+$$
+F1 Score = \frac{2 * Precision *  Sensitivity}{Precision + Sensitivity}
+$$
+
+```{r}
+
+f1_score  <- function(class_data, Actual, Predicted) {
+  
+  TN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 0)
+  TP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 0)
+  FN <- sum(class_data[Actual] == 0 & class_data[Predicted] == 1)
+  FP <- sum(class_data[Actual] == 1 & class_data[Predicted] == 1)
+  
+  F1 <- (2 * prec * sens)/(prec + sens)
+  return(F1)
+  
+}
+```
+
+```{r}
+
+f1_score <-f1_score(
+  class_data, Actual = 'class', 
+  Predicted = 'scored.class')
+
+
+f1_score
+```
+
+\newpage
+
+## 9. F1 Score Bounds
+
+Before we move on, let's consider a question that was asked:
+
+What are the bounds on the F1 score?
+
+Show that the F1 score will always be between 0 and 1.
+
+(Hint: If 0 \< 𝑎 \< 1 and 0 \< 𝑏 \< 1 then 𝑎𝑏 \< 𝑎.)
+
+```{r}
+
+f1_bounds <- function(p,s) {
+  f1 <- (2 * p * s) / (p + s)
+  return(f1)
+}
+```
+
+```{r}
+
+#lower
+f1_bounds(0.01, 0.01)
+
+#upper
+f1_bounds(0.99, 0.99)
+
+# ab < a
+f1_bounds(0.01, 0.99)
+f1_bounds(0.99, 0.01)
+
+(0.01 * 0.99)
+```
+
+\newpage
+
+## 10. ROC Curve
+
+Write a function that generates an ROC curve from a data set with a true classification column (class in our example) and a probability column (scored.probability in our example).
+
+Your function should return a list that includes the plot of the ROC curve and a vector that contains the calculated area under the curve (AUC).
+
+Note that I recommend using a sequence of thresholds ranging from 0 to 1 at 0.01 intervals
+
+### 10.1 Creating a ROC Curve
+
+A Receiver Operator Characteristic (ROC) curve is a graphical plot used to show the diagnostic ability of binary classifiers. It was first used in signal detection theory but is now used in many other areas such as medicine, radiology, natural hazards and machine learning.
+
+A ROC curve is constructed by plotting the true positive rate (TPR) against the false positive rate (FPR).
+
+**TPR** - The true positive rate is the proportion of observations that were correctly predicted to be positive out of all positive observations (TP/(TP + FN)). - **Sensitivity**\
+
+**FPR** - Similarly, the false positive rate is the proportion of observations that are incorrectly predicted to be positive out of all negative observations (FP/(TN + FP)).
+
+For example, in medical testing, the true positive rate is the rate in which people are correctly identified to test positive for the disease in question ( Diabetes in our case)
+
+```{r, fig.width=6, fig.height=6}
+
+thresholds <- seq(0,1,.01)
+
+# FP - Specificity
+x <- NULL
+# TP - Sensitivity
+y <- NULL  
+
+
+for (i in thresholds) {
+  
+  temp <- class_data
+  temp$pred <- ifelse(temp$scored.probability >= i, 1, 0)
+  
+  # false positive rate FPT
+  spec <- specificity(temp, Actual = 'class', Predicted = 'pred')
+  x <- append(x, 1 - spec)
+  
+  # true positive rate TPR
+  sensi <- sensitivity(temp, Actual = 'class', Predicted = 'pred')
+  y <- append(y, sensi)
+  
+  rm(temp, sensi, spec)
+}
+
+plot(x, y, type = 'b', xlab = '1 - Specificity', ylab = 'Sensitivity')
+abline(0,1, lty=3)
+
+```
+
+\newpage
+
+## 11. Classification Output
+
+Use your created R functions and the provided classification output data set to produce all of the classification metrics discussed above.
+
+```{r}
+c_output <- tibble(a, cer, prec, sens, specif, f1_score)
+
+c_output
+```
+
+\newpage
+
+## 12. Caret Package
+
+nvestigate the caret package. In particular, consider the functions confusionMatrix, sensitivity, and specificity.
+
+Apply the functions to the data set. How do the results compare with your own functions?
+
+### 12.1 Confusion Matrix (Caret)
+
+```{r, warning=FALSE, message=FALSE}
+
+library(caret)
+
+confusionMatrix(data = class_data$Predicted,
+                reference = class_data$Actual,
+                positive = 'Diabetes')
+
+
+```
+
+### 12.2 Comparison
+
+Even though the confusion matrix seems to have the same values the the sensitivity and specificity are very different in values.
+
+| Created          | Value     | Caret            | Value  |
+|------------------|-----------|------------------|--------|
+| Confusion Matrix | Same      | Confusion Matrix | Same   |
+| Sensitivity      | 0.5263158 | Sensitivity      | 0.4737 |
+| Specificity      | 0.5263158 | Specificity      | 0.9597 |
+
+\newpage
+
+## 13. pROC Package
+
+Investigate the pROC package. Use it to generate an ROC curve for the data set.
+
+How do the results compare with your own functions?
+
+```{r, warning=FALSE, message=FALSE}
+
+library(pROC)
+
+roc(class_data$class, class_data$scored.probability, plot = T, auc = T)
+
+```
+
+```{r}
+plot(x, y, type = 'b', xlab = '1 - Specificity', ylab = 'Sensitivity')
+abline(0,1, lty=3)
+```
