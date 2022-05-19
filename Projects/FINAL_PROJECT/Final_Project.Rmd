@@ -1,8 +1,8 @@
 ---
-title: "Homework 3 (Group 5)"
-subtitle: "Binary Logistic Regression"
+title: "Autism Screening"
+subtitle: "Classifying autistic patients based upon the screening results"
 author: "Maria A Ginorio"
-date: "3/30/2022"
+date: "`r Sys.Date()`"
 geometry: "left=2cm,right=2cm,top=2cm,bottom=2cm"
 output: 
   pdf_document:
@@ -16,11 +16,25 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Overview
+## Abstract
 
-In this homework assignment, you will explore, analyze and model a data set containing information on crime for various neighborhoods of a major city. Each record has a response variable indicating whether or not the crime rate is above the median crime rate (1) or not (0).
 
-Your objective is to build a binary logistic regression model on the training data set to predict whether the neighborhood will be at risk for high crime levels. You will provide classifications and probabilities for the evaluation data set using your binary logistic regression model. You can only use the variables given to you (or variables that you derive from the variables provided). Below is a short description of the variables of interest in the data set:
+
+## Keywords
+Autism, screening, binomial, classification, R
+
+## Introduction
+
+Autistic Spectrum Disorder (ASD) is a neurodevelopment condition associated with substancial healthcare costs. An early diagnosis can reduce the cost in --- by. 
+
+The economic impact of autism and the increase in the number of ASD cases across the world reveals an urgent need for the development of easily implemented and effective screening methods. Therefore, a time-efficient and accessible ASD screening is imminent to help health professionals and inform individuals whether they should pursue formal clinical diagnosis. 
+
+The rapid growth in the number of ASD cases worldwide necessitates datasets related to behavior traits. However, such datasets are rare making it difficult to perform thorough analyses to improve the efficiency, sensitivity, specificity and predictive accuracy of the ASD screening process. 
+
+Presently, very limited autism datasets associated with clinical, or screening are available and most of them are genetic in nature. Hence, we propose a new dataset related to autism screening of adults that contained 20 features to be utilized for further analysis especially in determining influential autistic traits and improving the classification of ASD cases. 
+
+In this dataset, we record ten behavioral features (AQ-10-Adult) plus ten individuals characteristics that have proved to be effective in detecting the ASD cases from controls in behavior science.
+
 
 ## Dataset
 

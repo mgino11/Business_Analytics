@@ -476,33 +476,33 @@ summary(logit)
 
 ```
 
-+-----------------------------------------+--------------------+---------------+
-| Crime Rate Above median                 | Logit Coefficients | Std. Error    |
-+=========================================+:==================:+:=============:+
-| indus                                   | 0.4585             | 1.5864        |
-|                                         |                    |               |
-| (prop non-retail business acres/suburb) |                    |               |
-+-----------------------------------------+--------------------+---------------+
-| nox                                     | 18.2624            | 3.6618        |
-|                                         |                    |               |
-| (nitrogen oxide concentration)          |                    |               |
-+-----------------------------------------+--------------------+---------------+
-| dis                                     | 2.2632             | 1.9165        |
-|                                         |                    |               |
-| ( wmu dist to empl centers)             |                    |               |
-+-----------------------------------------+--------------------+---------------+
-| rad (access radial highways)            | 12.1080            | 3.4047        |
-+-----------------------------------------+--------------------+---------------+
-| tax (full value prop tax)               | -4.2341            | 1.6232        |
-+-----------------------------------------+--------------------+---------------+
++-----------------------------------------+--------------------+------------+
+| Crime Rate Above median                 | Logit Coefficients | Std. Error |
++=========================================+:==================:+:==========:+
+| indus                                   | 0.4585             | 1.5864     |
+|                                         |                    |            |
+| (prop non-retail business acres/suburb) |                    |            |
++-----------------------------------------+--------------------+------------+
+| nox                                     | 18.2624            | 3.6618     |
+|                                         |                    |            |
+| (nitrogen oxide concentration)          |                    |            |
++-----------------------------------------+--------------------+------------+
+| dis                                     | 2.2632             | 1.9165     |
+|                                         |                    |            |
+| ( wmu dist to empl centers)             |                    |            |
++-----------------------------------------+--------------------+------------+
+| rad (access radial highways)            | 12.1080            | 3.4047     |
++-----------------------------------------+--------------------+------------+
+| tax (full value prop tax)               | -4.2341            | 1.6232     |
++-----------------------------------------+--------------------+------------+
 
 -   (\*) Indicates significance at the 5% level
 
--   [Coefficient Interpretation:]{.underline} higher taxes are **less likely** to have crime rate above median. Higher proportion of indus, nox rad, dis are **more likely** to have crime rate above median.
+-   [Coefficient Interpretation:]{.ul} higher taxes are **less likely** to have crime rate above median. Higher proportion of indus, nox rad, dis are **more likely** to have crime rate above median.
 
 \newpage
 
-### Model #2
+### Model \#2
 
 ```{r probit, warning=FALSE, message=FALSE}
 probit <- glm(formula = trainSet$target ~ trainSet$nox + 
@@ -528,11 +528,11 @@ summary(probit)
 
 -   (\*) Indicates significance at the 5% level
 
--   [Coefficient Interpretation:]{.underline} Higher proportion in nox, dis, rad are **more likely** to have crime rates above median. Meanwhile higher taxes are **less likely** to have crime rate above median.
+-   [Coefficient Interpretation:]{.ul} Higher proportion in nox, dis, rad are **more likely** to have crime rates above median. Meanwhile higher taxes are **less likely** to have crime rate above median.
 
 \newpage
 
-### Model #3
+### Model \#3
 
 **Caret GBM Model**
 

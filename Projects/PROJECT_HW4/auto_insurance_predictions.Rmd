@@ -50,7 +50,7 @@ library(skimr)
 library(tinytex)
 library(e1071)
 library(ggthemes)
-#library(caret)
+library(caret)
 ```
 
 ```{r dataset, echo=FALSE, message=FALSE}
@@ -367,18 +367,29 @@ ggplot(fct_skew, aes(x=URBANICITY)) +
 
 We can observe very interesting histograms from the predictors by factors of Target (crashed or not)
 
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | Variable      | Target (crashed or not)                                                                                         |
-|---------------|-----------------------------------------------------------------------------------------------------------------|
++===============+=================================================================================================================+
 | SINGLE_PARENT | There are less single parents that have crashed than single parents who have not crashed.                       |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | MARRIED       | There is more Married people who DO NOT crashed rather than Married people who crash                            |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | SEX           | Females are slightly higher on crashed than males. However, the competition is almost equal for no crashes.     |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | EDUCATION     | The Highest rate for crashing is in High school followed by Bachelors degree.                                   |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | JOB           | Blue Collar, clerical and students tend to have the higher rates for crashes.                                   |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | CAR_USE       | Private and Commercial are almost identical. fewer additional cases in Private                                  |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | CAR_TYPE      | The highest rate for crashing is in SUV, Pickup and Minivan. Surprisingly, sport cars are not in the top.       |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | RED_CAR       | It seems like the color of the car has little influence in crashes as there rate of crashes of red cars is low. |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | REVOKED       | People with NO revoked licenses have more crashes than the ones with revoked licences                           |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 | URBANICITY    | There is definitively more crashes in Urban areas rather than rural areas.                                      |
++---------------+-----------------------------------------------------------------------------------------------------------------+
 
 \newpage
 
